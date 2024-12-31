@@ -1,7 +1,7 @@
 # This is a practice application logistic regression and is heavily influenced by online resources
 # Inspired by a code tutorial.
 # Link: https://www.kaggle.com/code/alexandreao/logistic-regression-0-98-acc-on-breast-cancer?scriptVersionId=123698399
-# Using the breast cancer diagnostic dataset made available throug kagle
+# Using the breast cancer diagnostic dataset made available with kagle
 # Link: https://www.kaggle.com/datasets/uciml/breast-cancer-wisconsin-data?resource=download 
 # Writtern by Max Kramer
 # Date: 12/13/24
@@ -20,14 +20,14 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 # Store diabetetes data as a global data frame
-df = pd.read_csv('Datasets/breast_cancer_wisconsin_data_set.csv')
+df = pd.read_csv('Datasets/breast_cancer_wisconsin_dataset.csv')
 
 def prepare_data_for_analysis():
 
-    #drop column of unamed variables as well as id column
+    # Drop column of unamed variables as well as id column
     df.drop(["id"], axis=1, inplace=True)
 
-    #convert diagnosis into binary target.. 1 = M or Malignant, 0 = B for Benign
+    # Convert diagnosis into binary target.. 1 = M or Malignant, 0 = B for Benign
     df.diagnosis = [1 if value =="M" else 0 for value in df.diagnosis] 
 
 def exploratory_data_analysis():
@@ -52,23 +52,23 @@ def logistic_regression():
     print("In order to fit a logistc regression to the predictors data, the predictors will be scaled to ensure that they are comparably impactful.")
     print("After the predictors are scaled, both the predictors and target data will be split into train and test the model to assess how well it predicts a diagnosis. \n")
     
-    y = df["diagnosis"] # Target variables are moved into a one column target df
-    X = df.drop(['diagnosis'], axis=1) # independent variables are moved into a predictors df
+    y = df["diagnosis"] # Target variables are moved into a single column target df
+    X = df.drop(['diagnosis'], axis=1) # Independent variables are moved into a predictors df
 
-    # normalize units.. lots of variance in data so that variables are comparably impactful
+    # Normalize units.. lots of variance in data so that variables are comparably impactful
     scaler = StandardScaler()
 
-    # fit and transform
+    # Fit and transform
     X_scaled = scaler.fit_transform(X)
 
-    # split
+    # Split
     X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.25, random_state=16)
     lr = LogisticRegression()
 
-    # train
+    # Train
     lr.fit(X_train, y_train)
 
-    # predict on test data
+    # Predict on test data
     y_pred = lr.predict(X_test)
 
     # Evaluation variables and metrics: Accuracy, Recall, Precision
